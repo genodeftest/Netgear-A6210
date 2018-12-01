@@ -1,44 +1,20 @@
 /*
- ***************************************************************************
- * Ralink Tech Inc.
- * 4F, No. 2 Technology	5th	Rd.
- * Science-based Industrial	Park
- * Hsin-chu, Taiwan, R.O.C.
- *
- * (c) Copyright 2002-2006, Ralink Technology, Inc.
- *
- * All rights reserved.	Ralink's source	code is	an unpublished work	and	the
- * use of a	copyright notice does not imply	otherwise. This	source code
- * contains	confidential trade secret material of Ralink Tech. Any attemp
- * or participation	in deciphering,	decoding, reverse engineering or in	any
- * way altering	the	source code	is stricitly prohibited, unless	the	prior
- * written consent of Ralink Technology, Inc. is obtained.
- ***************************************************************************
-
-	Module Name:
-	rtusb_bulk.c
-
-*/
+ * Module Name:
+ * rtusb_bulk.c
+ */
 
 #include "rt_config.h"
 
 static INT RTUSBCmdThread(ULONG Context);
 
-/*
-========================================================================
-Routine Description:
-	Create kernel threads & tasklets.
-
-Arguments:
-	*net_dev	Pointer to wireless net device interface
-
-Return Value:
-	NDIS_STATUS_SUCCESS
-	NDIS_STATUS_FAILURE
-
-Note:
-========================================================================
-*/
+/**
+ * RtmpMgmtTaskInit - Create kernel threads and tasklets
+ * @arg1: Pointer to wireless net device interface
+ *
+ * Return:
+ * * NDIS_STATUS_SUCCESS - success
+ * * NDIS_STATUS_FAILURE - failure
+ */
 NDIS_STATUS RtmpMgmtTaskInit(RTMP_ADAPTER *pAd)
 {
 	RTMP_OS_TASK *pTask;
@@ -72,22 +48,10 @@ NDIS_STATUS RtmpMgmtTaskInit(RTMP_ADAPTER *pAd)
 	return NDIS_STATUS_SUCCESS;
 }
 
-
-
-/*
-========================================================================
-Routine Description:
-	Close kernel threads.
-
-Arguments:
-	*pAd		the raxx interface data pointer
-
-Return Value:
-	NONE
-
-Note:
-========================================================================
-*/
+/**
+ * RtmpMgmtTaskExit - Close kernel threads
+ * @arg1: The raxx interface data pointer
+ */
 VOID RtmpMgmtTaskExit(RTMP_ADAPTER *pAd)
 {
 	INT ret;
@@ -126,7 +90,6 @@ VOID RtmpMgmtTaskExit(RTMP_ADAPTER *pAd)
 		DBGPRINT(RT_DEBUG_ERROR, ("kill timer task failed!\n"));
 	}
 }
-
 
 static void rtusb_dataout_complete(unsigned long data)
 {
@@ -226,7 +189,6 @@ static void rtusb_dataout_complete(unsigned long data)
 	RTUSBKickBulkOut(pAd);
 }
 
-
 static void rtusb_null_frame_done_tasklet(unsigned long data)
 {
 	PRTMP_ADAPTER pAd;
@@ -314,21 +276,15 @@ static void rtusb_pspoll_frame_done_tasklet(unsigned long data)
 	RTUSBKickBulkOut(pAd);
 }
 
-
-/*
-========================================================================
-Routine Description:
-	Handle received packets.
-
-Arguments:
-	data		- URB information pointer
-
-Return Value:
-	None
-
-Note:
-========================================================================
-*/
+/**
+ * rx_done_tasklet - Handles received packets
+ * @arg1: A pointer to URB information (pURB)
+ *
+ * TODO: figure out why it uses a uint instead of a pointer
+ *	 for pURB
+ * TODO: replace all instances of typedefs (`pAd`, `pURB`, etc.) with actual
+ * 	 pointers
+ */
 static void rx_done_tasklet(unsigned long data)
 {
 	purbb_t pUrb;
@@ -362,7 +318,7 @@ static void rx_done_tasklet(unsigned long data)
 	} else {
 		/* STATUS_OTHER */
 		pAd->BulkInCompleteFail++;
-		/* Still read this packet although it may comtain wrong bytes. */
+		/* Still read this packet although it may contain wrong bytes. */
 		pRxContext->Readable = FALSE;
 		RTMP_IRQ_UNLOCK(&pAd->BulkInLock, IrqFlags);
 
@@ -395,8 +351,6 @@ static void rx_done_tasklet(unsigned long data)
 #endif /* RALINK_ATE */
 	RTUSBBulkReceive(pAd);
 }
-
-
 
 static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 {
@@ -508,7 +462,6 @@ static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 	}
 }
 
-
 static void rtusb_hcca_dma_done_tasklet(unsigned long data)
 {
 	PRTMP_ADAPTER pAd;
@@ -546,7 +499,6 @@ static void rtusb_hcca_dma_done_tasklet(unsigned long data)
 	DBGPRINT(RT_DEBUG_ERROR, ("<---hcca_dma_done_tasklet\n"));
 }
 
-
 static void rtusb_ac3_dma_done_tasklet(unsigned long data)
 {
 	PRTMP_ADAPTER pAd;
@@ -579,7 +531,6 @@ static void rtusb_ac3_dma_done_tasklet(unsigned long data)
 		}
 	}
 }
-
 
 static void rtusb_ac2_dma_done_tasklet(unsigned long data)
 {
@@ -614,7 +565,6 @@ static void rtusb_ac2_dma_done_tasklet(unsigned long data)
 	}
 }
 
-
 static void rtusb_ac1_dma_done_tasklet(unsigned long data)
 {
 	PRTMP_ADAPTER pAd;
@@ -647,7 +597,6 @@ static void rtusb_ac1_dma_done_tasklet(unsigned long data)
 		}
 	}
 }
-
 
 static void rtusb_ac0_dma_done_tasklet(unsigned long data)
 {
@@ -721,10 +670,10 @@ static void rtusb_ate_ac0_dma_done_tasklet(unsigned long data)
 				(">>BulkOutReq=0x%lx, BulkOutComplete=0x%lx\n",
 				pAd->BulkOutReq, pAd->BulkOutComplete));
 
-		if ((!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RESET_IN_PROGRESS)) &&
-			(!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_HALT_IN_PROGRESS)) &&
-			(!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST)) &&
-			(!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_BULKOUT_RESET))) {
+		if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RESET_IN_PROGRESS) &&
+		    !RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_HALT_IN_PROGRESS) &&
+		    !RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST) &&
+		    !RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_BULKOUT_RESET)) {
 			RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_BULKOUT_RESET);
 
 			/* In 28xx, RT_OID_USB_RESET_BULK_OUT ==> CMDTHREAD_RESET_BULK_OUT */
@@ -751,8 +700,8 @@ static void rtusb_ate_ac0_dma_done_tasklet(unsigned long data)
 		pAd->WlanCounters.TransmittedFragmentCount.u.HighPart++;
 	}
 
-	if (((pAd->ContinBulkOut == TRUE ) ||(atomic_read(&pAd->BulkOutRemained) > 0))
-		&& (pAd->ate.Mode & ATE_TXFRAME)) {
+	if (((pAd->ContinBulkOut == TRUE ) ||(atomic_read(&pAd->BulkOutRemained) > 0)) &&
+	    (pAd->ate.Mode & ATE_TXFRAME)) {
 		RTUSB_SET_BULK_FLAG(pAd, fRTUSB_BULK_OUT_DATA_ATE);
 	} else {
 		RTUSB_CLEAR_BULK_FLAG(pAd, fRTUSB_BULK_OUT_DATA_ATE);
@@ -792,7 +741,6 @@ NDIS_STATUS RtmpNetTaskInit(RTMP_ADAPTER *pAd)
 	return NDIS_STATUS_SUCCESS;
 }
 
-
 void RtmpNetTaskExit(IN RTMP_ADAPTER *pAd)
 {
 	POS_COOKIE pObj;
@@ -815,21 +763,13 @@ void RtmpNetTaskExit(IN RTMP_ADAPTER *pAd)
 	RTMP_OS_TASKLET_KILL(&pObj->pspoll_frame_complete_task);
 }
 
-
-/*
-========================================================================
-Routine Description:
-	USB command kernel thread.
-
-Arguments:
-	*Context	the pAd, driver control block pointer
-
-Return Value:
-	0		close the thread
-
-Note:
-========================================================================
-*/
+/**
+ * RTUSBCmdThread - USB command kernel thread
+ * @arg1: The driver control block pointer (pAd)
+ *
+ * Return:
+ * * 0 - the thread was closed
+ */
 static INT RTUSBCmdThread(ULONG Context)
 {
 	RTMP_ADAPTER *pAd;
@@ -943,4 +883,3 @@ void InitUSBDevice(RT_CMD_USB_INIT *config, VOID *ad_src)
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: ERROR ignored! \n",__FUNCTION__));
 	}
 }
-

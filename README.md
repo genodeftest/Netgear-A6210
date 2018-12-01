@@ -17,7 +17,7 @@ The driver is mostly tested on 64 bit Ubuntu 15.10 and Debian 8.3 with NETGEAR A
 High Gain Wifi USB Adapter. Some other distro/dongle combinations work as well, for
 example Linux Mint 17.3 "Rosa" - KDE (32-bit)/ASUS USB-N53 seems to work flawlessly
 (as reported by Roland Bauer). I have tested it for kernel 4.18.4 with Arch Linux
-x86_64 and arch linux ARMv7 (rasberry pi).
+x86_64 and arch linux ARMv7 (Raspberry Pi 2 Model B).
 
 The supported chipsets can be present in other devices. To include additional
 devices, you need to add corresponding VendorID, DeviceID into the file
@@ -28,7 +28,7 @@ http://cdn-cw.mediatek.com/Downloads/linux/MT7612U_DPO_LinuxSTA_3.0.0.1_20140718
 
 The driver provided at this link NO LONGER COMPILES, so do not attempt to use it. I
 do not plan on maintaining this driver, but rather keeping it up to date with
-it's branch at:
+its branch at:
 https://github.com/kaduke/Netgear-A6210
 
 and maintaining it as a PACKAGE for the AUR. I may add functions and edit or reformat
@@ -48,8 +48,7 @@ to restart the manager:
 This seems to be Linux distro dependent, but has definitely been observed on Ubuntu,
 I have not yet had any problems with the driver on Arch.
 
-At present, there is no LED support yet (Netgear-A6210 does not have
-any LEDs, but other dongles do, such as the A).
+At present, there is no LED support.
 
 EDUP EP-AC1601 works (or to be precise, should work), but at present there are
 several problems such as frequent dropping of connection, failure to connect, wildly

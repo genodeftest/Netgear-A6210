@@ -1,22 +1,6 @@
 /*
- ***************************************************************************
- * Ralink Tech Inc.
- * 4F, No. 2 Technology 5th Rd.
- * Science-based Industrial Park
- * Hsin-chu, Taiwan, R.O.C.
- *
- * (c) Copyright 2002-2004, Ralink Technology, Inc.
- *
- * All rights reserved. Ralink's source code is an unpublished work and the
- * use of a copyright notice does not imply otherwise. This source code
- * contains confidential trade secret material of Ralink Tech. Any attemp
- * or participation in deciphering, decoding, reverse engineering or in any
- * way altering the source code is stricitly prohibited, unless the prior
- * written consent of Ralink Technology, Inc. is obtained.
- ***************************************************************************
-
-    Module Name:
-    rtmp_def.h
+ *  Module Name:
+ * rtmp_def.h
 
     Abstract:
     Miniport related definition header
@@ -54,15 +38,15 @@
 
 #ifdef SNMP_SUPPORT
 /* for snmp, to get manufacturer OUI, 2008_0220 */
-#define ManufacturerOUI_LEN			3
-#define ManufacturerNAME			("Ralink Technology Company.")
-#define	ResourceTypeIdName			("Ralink_ID")
+#define ManufacturerOUI_LEN	3
+#define ManufacturerNAME	("Ralink Technology Company.")
+#define	ResourceTypeIdName	("Ralink_ID")
 #endif
 
-#define RALINK_2883_VERSION		((UINT32)0x28830300)
+#define RALINK_2883_VERSION	((UINT32)0x28830300)
 #define RALINK_2880E_VERSION	((UINT32)0x28720200)
-#define RALINK_3883_VERSION		((UINT32)0x38830400)
-#define RALINK_3070_VERSION		((UINT32)0x30700200)
+#define RALINK_3883_VERSION	((UINT32)0x38830400)
+#define RALINK_3070_VERSION	((UINT32)0x30700200)
 
 #define MAX_RX_PKT_LEN	1520
 
@@ -104,7 +88,7 @@
 /*#define MGMT_DMA_BUFFER_SIZE    1536 //2048 */
 /*
 	Note 20100212 by SampleLin: do not set MGMT_DMA_BUFFER_SIZE smaller than
-	1600; Or kernel will crash in deaggregate_AMSDU_announce() for EAPOL packet
+	1600 or the kernel will crash in deaggregate_AMSDU_announce() for EAPOL packet
 	in enterprise WPA mode.
 */
 #define MGMT_DMA_BUFFER_SIZE    1600	/*2048 */
@@ -146,14 +130,14 @@
 	clConfig.clNum = RX_RING_SIZE * 4;
 */
 
-#define MAX_PACKETS_IN_MCAST_PS_QUEUE		32
-#define MAX_PACKETS_IN_PS_QUEUE				128	/*32 */
-#define WMM_NUM_OF_AC                       4	/* AC0, AC1, AC2, and AC3 */
+#define MAX_PACKETS_IN_MCAST_PS_QUEUE	32
+#define MAX_PACKETS_IN_PS_QUEUE		128	/*32 */
+#define WMM_NUM_OF_AC			4	/* AC0, AC1, AC2, and AC3 */
 
 #ifdef CONFIG_AP_SUPPORT
 #endif /* CONFIG_AP_SUPPORT */
 
-#define MAX_AGG_3SS_BALIMIT		31
+#define MAX_AGG_3SS_BALIMIT	31
 
 /* RxFilter */
 #define STANORMAL	 0x17f97
@@ -169,52 +153,52 @@
 /*
 	RTMP_ADAPTER flags
 */
-#define fRTMP_ADAPTER_MAP_REGISTER				0x00000001
-#define fRTMP_ADAPTER_INTERRUPT_IN_USE			0x00000002
-#define fRTMP_HW_ERR								0x00000004
-#define fRTMP_SG									0x00000008	/* Scatter and Gather */
+#define fRTMP_ADAPTER_MAP_REGISTER		0x00000001
+#define fRTMP_ADAPTER_INTERRUPT_IN_USE		0x00000002
+#define fRTMP_HW_ERR				0x00000004
+#define fRTMP_SG				0x00000008	/* Scatter and Gather */
 
-#define fRTMP_PKT_TX_ERR							0x00000010
+#define fRTMP_PKT_TX_ERR			0x00000010
 #define fRTMP_ADAPTER_MLME_RESET_IN_PROGRESS	0x00000020
-#define fRTMP_ADAPTER_HALT_IN_PROGRESS			0x00000040
-#define fRTMP_ADAPTER_RESET_IN_PROGRESS			0x00000080
+#define fRTMP_ADAPTER_HALT_IN_PROGRESS		0x00000040
+#define fRTMP_ADAPTER_RESET_IN_PROGRESS		0x00000080
 
-#define fRTMP_ADAPTER_NIC_NOT_EXIST				0x00000100
-#define fRTMP_ADAPTER_TX_RING_ALLOCATED			0x00000200
-#define fRTMP_ADAPTER_REMOVE_IN_PROGRESS		0x00000400
-#define fRTMP_ADAPTER_MIMORATE_INUSED			0x00000800
+#define fRTMP_ADAPTER_NIC_NOT_EXIST		0x00000100
+#define fRTMP_ADAPTER_TX_RING_ALLOCATED		0x00000200
+#define fRTMP_ADAPTER_REMOVE_IN_PROGRESS	0x00000400
+#define fRTMP_ADAPTER_MIMORATE_INUSED		0x00000800
 
-#define fRTMP_ADAPTER_RX_RING_ALLOCATED			0x00001000
-#define fRTMP_ADAPTER_INTERRUPT_ACTIVE			0x00002000
-#define fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS		0x00004000
-#define	fRTMP_ADAPTER_REASSOC_IN_PROGRESS		0x00008000
+#define fRTMP_ADAPTER_RX_RING_ALLOCATED		0x00001000
+#define fRTMP_ADAPTER_INTERRUPT_ACTIVE		0x00002000
+#define fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS	0x00004000
+#define	fRTMP_ADAPTER_REASSOC_IN_PROGRESS	0x00008000
 
-#define	fRTMP_ADAPTER_MEDIA_STATE_PENDING		0x00010000
-#define	fRTMP_ADAPTER_RADIO_OFF					0x00020000
-#define fRTMP_ADAPTER_BULKOUT_RESET				0x00040000
-#define	fRTMP_ADAPTER_BULKIN_RESET				0x00080000
+#define	fRTMP_ADAPTER_MEDIA_STATE_PENDING	0x00010000
+#define	fRTMP_ADAPTER_RADIO_OFF			0x00020000
+#define fRTMP_ADAPTER_BULKOUT_RESET		0x00040000
+#define	fRTMP_ADAPTER_BULKIN_RESET		0x00080000
 
-#define fRTMP_ADAPTER_RDG_ACTIVE				0x00100000
+#define fRTMP_ADAPTER_RDG_ACTIVE		0x00100000
 #define fRTMP_ADAPTER_DYNAMIC_BE_TXOP_ACTIVE	0x00200000
-#define fRTMP_ADAPTER_RALINK_BURST_MODE			0x00400000
-#define fRTMP_ADAPTER_DISABLE_DEQUEUEPACKET  	0x00800000
+#define fRTMP_ADAPTER_RALINK_BURST_MODE		0x00400000
+#define fRTMP_ADAPTER_DISABLE_DEQUEUEPACKET	0x00800000
 
-#define fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD		0x01000000
-#define fRTMP_ADAPTER_CMD_RADIO_OFF				0x02000000
-#define fRTMP_ADAPTER_SCAN_2040					0x04000000
-#define	fRTMP_ADAPTER_RADIO_MEASUREMENT			0x08000000
+#define fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD	0x01000000
+#define fRTMP_ADAPTER_CMD_RADIO_OFF		0x02000000
+#define fRTMP_ADAPTER_SCAN_2040			0x04000000
+#define	fRTMP_ADAPTER_RADIO_MEASUREMENT		0x08000000
 
-#define fRTMP_ADAPTER_START_UP					0x10000000	/*Devive already initialized and enabled Tx/Rx. */
+#define fRTMP_ADAPTER_START_UP			0x10000000	/*Devive already initialized and enabled Tx/Rx. */
 //#define fRTMP_ADAPTER_MEDIA_STATE_CHANGE		0x20000000
 
 //#ifdef CONFIG_PM
 //#ifdef USB_SUPPORT_SELECTIVE_SUSPEND
-#define fRTMP_ADAPTER_SUSPEND 					0x20000000
+#define fRTMP_ADAPTER_SUSPEND 			0x20000000
 //#endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
 //#endif /* CONFIG_PM */
 
-#define fRTMP_ADAPTER_IDLE_RADIO_OFF			0x40000000
-#define fRTMP_ADAPTER_POLL_IDLE					0x80000000
+#define fRTMP_ADAPTER_IDLE_RADIO_OFF		0x40000000
+#define fRTMP_ADAPTER_POLL_IDLE			0x80000000
 
 enum ASIC_CAP{
 	fASIC_CAP_RX_SC = 0x1,
@@ -226,7 +210,7 @@ enum ASIC_CAP{
 };
 
 #define fRTMP_ADAPTER_DISABLE_DOT_11N	0x00000001
-#define fRTMP_ADAPTER_WSC_PBC_PIN0		0x00000002
+#define fRTMP_ADAPTER_WSC_PBC_PIN0	0x00000002
 #define fRTMP_ADAPTER_DISABLE_DEQUEUE	0x00000004
 
 enum PHY_CAP{
