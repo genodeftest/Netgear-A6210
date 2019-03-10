@@ -33,6 +33,7 @@
 #include "rtmp_comm.h"
 #include "rt_os_util.h"
 #include "rt_os_net.h"
+#include <linux/version.h>
 
 #ifdef CONFIG_WEXT_PRIV
 #undef CONFIG_WEXT_PRIV
@@ -2189,7 +2190,11 @@ int rt28xx_sta_ioctl(struct net_device *net_dev, struct ifreq *rq, int cmd)
 #ifdef CONFIG_WEXT_PRIV
 	case SIOCGIWPRIV:
 		if (wrqin->u.data.pointer) {
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 0, 0)
+			if (access_ok(wrqin->u.data.pointer, sizeof(privtab)) != TRUE)
+#else
 			if (access_ok(VERIFY_WRITE, wrqin->u.data.pointer, sizeof(privtab)) != TRUE)
+#endif
 				break;
 			if ((sizeof(privtab) / sizeof(privtab[0])) <= wrq->u.data.length) {
 				wrqin->u.data.length = sizeof(privtab) / sizeof(privtab[0]);
@@ -2202,7 +2207,11 @@ int rt28xx_sta_ioctl(struct net_device *net_dev, struct ifreq *rq, int cmd)
 		break;
 #endif
 	case RTPRIV_IOCTL_SET:
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 0, 0)
+		if (access_ok(wrqin->u.data.pointer, wrqin->u.data.length) != TRUE)
+#else
 		if (access_ok(VERIFY_READ, wrqin->u.data.pointer, wrqin->u.data.length) != TRUE)
+#endif
 			break;
 		return rt_ioctl_setparam(net_dev, NULL, NULL, wrqin->u.data.pointer);
 	case RTPRIV_IOCTL_GSITESURVEY:
