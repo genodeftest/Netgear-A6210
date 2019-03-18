@@ -65,7 +65,7 @@ BOOLEAN CFG80211_CheckActionFrameType(RTMP_ADAPTER  *pAd, PUCHAR preStr,
 			DBGPRINT(RT_DEBUG_INFO,
 					("CFG80211_PKT: %s ProbeRsp Frame %d\n",
 					preStr, pAd->LatchRfRegs.Channel));
-#if LINUX_VERSION_CODE <= KERNEL_VERSION(5, 0, 0)
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 0, 0)
 			if (!mgmt->u.probe_resp.timestamp) {
 				struct timespec64 tstamp;
 
