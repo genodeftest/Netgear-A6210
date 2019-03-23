@@ -53,7 +53,7 @@ release:
 	@echo "*** Building driver without debug messages ***"
 	@echo ""
 	cp -f os/linux/Makefile.6 $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
+	$(MAKE) -C $(LINUX_SRC) M=$(RT28xx_DIR)/os/linux modules
 
 debug:
 	export DBGFLAGS
@@ -61,7 +61,7 @@ debug:
 	@echo "*** Building driver with debug messages ***"
 	@echo ""
 	cp -f os/linux/Makefile.6 $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(LINUX_SRC) DBGFLAGS=-DDBG SUBDIRS=$(RT28xx_DIR)/os/linux modules
+	$(MAKE) -C $(LINUX_SRC) DBGFLAGS=-DDBG M=$(RT28xx_DIR)/os/linux modules
 
 clean:
 	cp -f os/linux/Makefile.clean os/linux/Makefile
@@ -76,7 +76,3 @@ install:
 	$(MAKE) -C $(RT28xx_DIR)/os/linux -f Makefile.6 install
 
 .PHONY: $(PHONY)
-
-
-
-
