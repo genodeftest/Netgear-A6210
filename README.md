@@ -4,7 +4,7 @@ This driver supports Ralink / Mediatek mt766u, mt7632u and mt7612u chipsets.
 In particular, the driver supports several USB dongles such as Netgear-A6210,
 ASUS USB-AC55, ASUS USB-N53 and EDUP EP-AC1601.
 
-Linux kernel version up to 4.18 has been tested.
+Linux kernel version up to 5.0.5 has been tested.
 
 To build the driver, follow these steps:
 
@@ -13,27 +13,31 @@ To build the driver, follow these steps:
 	$ make
 	$ sudo make install
 
+or use the install script:
+
+	$ git clone https://gitlab.com/nagefire/netgear-a6210.git
+	$ cd netgear-a6210
+	$ ./install.sh
+
 The driver is mostly tested on 64 bit Ubuntu 15.10 and Debian 8.3 with NETGEAR AC1200
 High Gain Wifi USB Adapter. Some other distro/dongle combinations work as well, for
 example Linux Mint 17.3 "Rosa" - KDE (32-bit)/ASUS USB-N53 seems to work flawlessly
-(as reported by Roland Bauer). I have tested it for kernel 4.18.4 with Arch Linux
-x86_64 and arch linux ARMv7 (Raspberry Pi 2 Model B).
+(as reported by Roland Bauer). I have tested it up kernel version 5.0.5 with Arch Linux
+x86_64 and Arch Linux ARMv7 (Raspberry Pi 2 Model B).
 
 The supported chipsets can be present in other devices. To include additional
 devices, you need to add corresponding VendorID, DeviceID into the file
 "rtusb_dev_id.c"
 
-The original code was downloaded from: 
+The original code was downloaded from:
 http://cdn-cw.mediatek.com/Downloads/linux/MT7612U_DPO_LinuxSTA_3.0.0.1_20140718.tar.bz2
 
 The driver provided at this link NO LONGER COMPILES, so do not attempt to use it. I
-do not plan on maintaining this driver, but rather keeping it up to date with
-its branch at:
-https://github.com/kaduke/Netgear-A6210
+plan on maintaining this driver so that it continues to compile with the newest kernel
+releases and I would like to deobfuscate it, which is a work in progress.
 
-and maintaining it as a PACKAGE for the AUR. I may add functions and edit or reformat
-files as I see fit, such as the creating the install script, and I may even attempt
-adding it as a package for other distros.
+I am working on creating a tarball for usage with Arch Linux and adding it the the AUR,
+I may end up adding the package to other distros if requested.
 
 This is work in progress. The driver is functional, however, there are still several
 issues that need to be addressed, such as the driver providing extraneous output
@@ -69,3 +73,5 @@ commands from within the repo's folder:
 To remove:
 
 	$ sudo dkms remove netgear-a6210/2.5.0 --all
+
+This process is automated by the install script as well.
