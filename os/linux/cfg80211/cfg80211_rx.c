@@ -21,6 +21,7 @@
 #ifdef RT_CFG80211_SUPPORT
 
 #include "rt_config.h"
+#include <linux/version.h>
 
 extern UCHAR CFG_P2POUIBYTE[];
 
@@ -64,11 +65,21 @@ BOOLEAN CFG80211_CheckActionFrameType(RTMP_ADAPTER  *pAd, PUCHAR preStr,
 			DBGPRINT(RT_DEBUG_INFO,
 					("CFG80211_PKT: %s ProbeRsp Frame %d\n",
 					preStr, pAd->LatchRfRegs.Channel));
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 0, 0)
+			if (!mgmt->u.probe_resp.timestamp) {
+				struct timespec64 tstamp;
+
+				ktime_get_real_ts64(&tstamp);
+
+				mgmt->u.probe_resp.timestamp = ((UINT64) tstamp.tv_sec * 1000000) + tstamp.tv_nsec;
+			}
+#else
 			if (!mgmt->u.probe_resp.timestamp) {
 				struct timeval tv;
 				do_gettimeofday(&tv);
 				mgmt->u.probe_resp.timestamp = ((UINT64) tv.tv_sec * 1000000) + tv.tv_usec;
 			}
+#endif
 		} else if (ieee80211_is_disassoc(mgmt->frame_control)) {
 			DBGPRINT(RT_DEBUG_ERROR,
 					("CFG80211_PKT: %s DISASSOC Frame\n",

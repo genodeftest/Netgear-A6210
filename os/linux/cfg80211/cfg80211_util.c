@@ -809,11 +809,19 @@ void CFG80211OS_Scaning(void *pCB, UINT32 ChanId, UCHAR *pFrame, UINT32 FrameLen
 		RSSI = RSSI * 100;
 	}
 
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 0, 0)
+	if (!mgmt->u.probe_resp.timestamp) {
+		struct timespec64 tstamp;
+		ktime_get_real_ts64(&tstamp);
+		mgmt->u.probe_resp.timestamp = ((UINT64)tstamp.tv_sec * 1000000) + tstamp.tv_nsec;
+	}
+#else
 	if (!mgmt->u.probe_resp.timestamp) {
 		struct timeval tv;
 		do_gettimeofday(&tv);
 		mgmt->u.probe_resp.timestamp = ((UINT64) tv.tv_sec * 1000000) + tv.tv_usec;
 	}
+#endif // kernel version > 5.0.0
 
 	/* inform 80211 a scan is got */
 	/* we can use cfg80211_inform_bss in 2.6.31, it is easy more than the one */
