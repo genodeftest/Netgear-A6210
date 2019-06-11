@@ -672,7 +672,7 @@ RTMP_OS_FD RtmpOSFileOpen(char *pPath, int flag, int mode)
 		flag = O_TRUNC;
 
 	oldfs = get_fs();
-	set_fs(get_ds());
+	set_fs(KERNEL_DS);
 	filePtr = filp_open(pPath, flag, 0);
 	set_fs(oldfs);
 
@@ -704,7 +704,7 @@ int RtmpOSFileRead(RTMP_OS_FD osfd, char *pDataPtr, int readLen)
 	int ret;
 	mm_segment_t fs = get_fs();
 
-	set_fs(get_ds());
+	set_fs(KERNEL_DS);
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 14, 0)
 	ret = kernel_read(osfd, pDataPtr, readLen, &osfd->f_pos);
@@ -722,7 +722,7 @@ int RtmpOSFileWrite(RTMP_OS_FD osfd, char *pDataPtr, int writeLen)
 	int ret;
 	mm_segment_t oldfs = get_fs();
 
-	set_fs(get_ds());
+	set_fs(KERNEL_DS);
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 14, 0)
 	ret = kernel_write(osfd, pDataPtr, writeLen, &osfd->f_pos);
